@@ -1,0 +1,51 @@
+---
+import type { Post } from '../lib';
+import { formatDate } from '../lib';
+import { CATEGORIES } from '../consts';
+import PainMeter from './PainMeter.astro';
+
+interface Props { post: Post; lead?: boolean }
+const { post, lead = false } = Astro.props;
+const { title, description, pubDate, category, score, mood, author } = post.data;
+---
+<article class:list={['card', { lead }]}>
+  <div class="art" aria-hidden="true">
+    {score ? <span class="score">{score}</span> : <span class="glyph">{CATEGORIES[category].label}</span>}
+  </div>
+  <div class="body">
+    <a class="kicker" href={`/category/${category}/`}>{CATEGORIES[category].label}</a>
+    <h3><a href={`/posts/${post.id}/`}>{title}</a></h3>
+    <p>{description}</p>
+    <div class="foot">
+      <span class="meta">{author} · {formatDate(pubDate)}</span>
+      <PainMeter mood={mood} compact />
+    </div>
+  </div>
+</article>
+
+<style>
+  .card { background: var(--card); border: 1px solid var(--line); display: flex; flex-direction: column; transition: transform 0.15s, box-shadow 0.15s; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgb(0 0 0 / 0.12); }
+  .art {
+    aspect-ratio: 16 / 7;
+    display: grid; place-items: center; padding: 1rem; text-align: center;
+    background:
+      repeating-linear-gradient(135deg, transparent 0 18px, rgb(255 255 255 / 0.05) 18px 36px),
+      linear-gradient(135deg, var(--red) 0%, var(--red-dark) 70%, #000 140%);
+    color: #fff;
+  }
+  .score { font-family: var(--font-head); font-size: clamp(1.2rem, 3vw, 1.7rem); font-weight: 700; text-transform: uppercase; color: var(--gold); }
+  .glyph { font-family: var(--font-head); text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.55; font-size: 0.95rem; }
+  .body { padding: 1.1rem 1.25rem 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+  .kicker { align-self: flex-start; }
+  h3 { font-size: 1.3rem; margin: 0; }
+  h3 a { text-decoration: none; }
+  h3 a:hover { color: var(--red); }
+  p { margin: 0; color: var(--muted); font-size: 0.98rem; }
+  .foot { margin-top: auto; display: flex; flex-direction: column; gap: 0.4rem; padding-top: 0.5rem; border-top: 1px solid var(--line); }
+  .lead { display: grid; grid-template-columns: 1.2fr 1fr; }
+  .lead .art { aspect-ratio: auto; min-height: 280px; }
+  .lead h3 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); }
+  .lead .score { font-size: clamp(1.6rem, 4vw, 2.6rem); }
+  @media (max-width: 760px) { .lead { grid-template-columns: 1fr; } .lead .art { min-height: 180px; } }
+</style>

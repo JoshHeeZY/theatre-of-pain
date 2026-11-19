@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import Sidebar from '../components/Sidebar.astro';
+import { getPosts } from '../lib';
+import { CATEGORIES } from '../consts';
+
+const posts = await getPosts();
+const lead = posts.find((p) => p.data.featured) ?? posts[0];
+const rest = posts.filter((p) => p !== lead);
+const latest = rest.slice(0, 6);
+const byCategory = Object.entries(CATEGORIES)
+  .map(([key, c]) => ({ key, ...c, posts: posts.filter((p) => p.data.category === key).slice(0, 3) }))
+  .filter((c) => c.posts.length);
+---
+<BaseLayout>
+  {lead && (
+    <section class="lead-wrap">
+      <PostCard post={lead} lead />
+    </section>
+  )}
+
+  <div class="layout">
+    <div>
+      <h2 class="section-title">Fresh pain</h2>
+      <div class="grid">
+        {latest.map((p) => <PostCard post={p} />)}
+      </div>
+
+      {byCategory.map((c) => (
+        <section>
+          <h2 class="section-title"><a href={`/category/${c.key}/`}>{c.label}</a></h2>
+          <ul class="list">
+            {c.posts.map((p) => (
+              <li><a href={`/posts/${p.id}/`}>{p.data.title}</a> <span class="meta">— {p.data.description}</span></li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+    <Sidebar />
+  </div>
+</BaseLayout>
+
+<style>
+  .lead-wrap { margin-top: 2rem; }
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 2.5rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
+  .section-title a { text-decoration: none; }
+  .list { list-style: none; padding: 0; margin: 0; }
+  .list li { padding: 0.65rem 0; border-bottom: 1px solid var(--line); }
+  .list a { font-weight: 600; text-decoration: none; }
+  .list a:hover { color: var(--red); }
+  .list .meta { text-transform: none; letter-spacing: 0; font-family: var(--font-body); font-size: 0.92rem; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } :global(.sidebar) { margin-top: 2rem; } }
+</style>

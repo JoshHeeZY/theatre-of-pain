@@ -1,0 +1,29 @@
+---
+import { SITE_TITLE } from '../consts';
+const year = new Date().getFullYear();
+---
+<footer>
+  <div class="wrap foot">
+    <div>
+      <strong>{SITE_TITLE}</strong>
+      <p>An independent fan blog. Not affiliated with, endorsed by, or in any way responsible to Manchester United Football Club. Opinions are ours, the suffering is shared.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="/rss.xml">RSS</a>
+      <a href="/archive/">Archive</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+  <div class="copy">© {year} {SITE_TITLE} · Glory Glory, eventually.</div>
+</footer>
+
+<style>
+  footer { margin-top: 4rem; background: #0d0d0d; color: #cfc8c0; border-top: 6px solid var(--red); }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; padding-top: 2.5rem; padding-bottom: 2rem; }
+  .foot > div { max-width: 60ch; }
+  strong { font-family: var(--font-head); text-transform: uppercase; color: #fff; font-size: 1.3rem; letter-spacing: 0.04em; }
+  p { font-size: 0.95rem; }
+  nav { display: flex; gap: 1.25rem; font-family: var(--font-head); text-transform: uppercase; letter-spacing: 0.08em; }
+  nav a { color: var(--gold); text-decoration: none; }
+  .copy { text-align: center; font-size: 0.8rem; padding: 1rem; border-top: 1px solid #222; color: #8a837c; }
+</style>

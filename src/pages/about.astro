@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../consts';
+---
+<BaseLayout title="About" description={`What ${SITE_TITLE} is, and why we put ourselves through it.`}>
+  <div class="prose about">
+    <h1>About {SITE_TITLE}</h1>
+    <p class="lede">We are Manchester United supporters. We have seen the treble, the title in the snow at Old Trafford, and a goalkeeper sent up for a corner more times than is medically advisable. We have also seen some things we would rather not discuss.</p>
+    <p>{SITE_TITLE} is an independent fan blog for the honest, funny and occasionally unhinged conversation that happens after every final whistle. Expect:</p>
+    <ul>
+      <li><strong>Match reports</strong> written while the emotions are still raw.</li>
+      <li><strong>Transfer talk</strong> with the appropriate amount of salt.</li>
+      <li><strong>Opinion</strong> that you are welcome to disagree with, loudly.</li>
+      <li><strong>History</strong> for when we need reminding why we do this.</li>
+    </ul>
+    <h2>The Pain-o-Meter</h2>
+    <p>Every post carries a score from 1 (inconsolable) to 10 (Fergie-time delirium), a quick read on how the author felt while writing it. The average across the site is shown in the sidebar as the fanbase mood.</p>
+    <h2>Write for us</h2>
+    <p>Got a take? Posts are plain Markdown files, so contributions are easy. Get in touch and we'll set you up.</p>
+    <hr />
+    <p><em>{SITE_TITLE} is not affiliated with Manchester United Football Club. All views are the authors' own.</em></p>
+  </div>
+</BaseLayout>
+
+<style>
+  .about { margin: 2.5rem auto 0; }
+  h1 { font-size: clamp(2rem, 6vw, 3.2rem); }
+  .lede { font-size: 1.25rem; }
+</style>

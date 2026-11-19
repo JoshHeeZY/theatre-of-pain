@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Page not found" description="This page has gone the way of our title challenge.">
+  <div class="nf">
+    <p class="code">404</p>
+    <h1>Offside. Page not found.</h1>
+    <p>VAR has had a look and this page doesn't exist. Much like our midfield on a bad day.</p>
+    <a class="kicker" href="/">Back to the homepage</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .nf { text-align: center; padding: 4rem 0 2rem; }
+  .code { font-family: var(--font-head); font-size: clamp(5rem, 20vw, 9rem); color: var(--red); line-height: 1; margin: 0; font-weight: 700; }
+  p { color: var(--muted); }
+  .kicker { font-size: 1rem; padding: 0.5rem 1rem; }
+</style>

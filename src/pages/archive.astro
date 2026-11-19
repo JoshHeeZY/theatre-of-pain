@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPosts, formatDate } from '../lib';
+import { CATEGORIES } from '../consts';
+
+const posts = await getPosts();
+const byYear = Map.groupBy(posts, (p) => p.data.pubDate.getFullYear());
+---
+<BaseLayout title="Archive" description="Every post, every ounce of pain, in date order.">
+  <header class="page-head">
+    <h1>Archive</h1>
+    <p>Every post, every ounce of pain. {posts.length} and counting.</p>
+  </header>
+  {[...byYear].map(([year, list]) => (
+    <section>
+      <h2 class="section-title">{year}</h2>
+      <ul>
+        {list.map((p) => (
+          <li>
+            <time class="meta">{formatDate(p.data.pubDate)}</time>
+            <a href={`/posts/${p.id}/`}>{p.data.title}</a>
+            <span class="cat meta">{CATEGORIES[p.data.category].label}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</BaseLayout>
+
+<style>
+  .page-head { margin: 2.5rem 0 1rem; }
+  h1 { font-size: clamp(2rem, 6vw, 3.5rem); margin: 0; }
+  .page-head p { font-style: italic; color: var(--muted); margin: 0.4rem 0 0; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  li { display: grid; grid-template-columns: 11rem 1fr auto; gap: 1rem; align-items: baseline; padding: 0.65rem 0; border-bottom: 1px solid var(--line); }
+  li a { font-weight: 600; text-decoration: none; }
+  li a:hover { color: var(--red); }
+  .cat { color: var(--red); }
+  @media (max-width: 640px) { li { grid-template-columns: 1fr; gap: 0.15rem; } }
+</style>

@@ -1,0 +1,100 @@
+:root {
+  --red: #c8102e;
+  --red-dark: #8f0b20;
+  --gold: #f5c400;
+  --ink: #141414;
+  --paper: #faf8f5;
+  --muted: #6b6560;
+  --line: #e4ded6;
+  --card: #ffffff;
+  --font-head: 'Oswald', 'Arial Narrow', sans-serif;
+  --font-body: 'Source Serif 4', Georgia, serif;
+  --max: 1160px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #f1ece6;
+    --paper: #121010;
+    --muted: #a39b93;
+    --line: #2c2725;
+    --card: #1b1817;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.075rem;
+  line-height: 1.65;
+}
+a { color: inherit; }
+img { max-width: 100%; height: auto; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-head);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin: 0 0 0.5em;
+}
+
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 16px; }
+
+.kicker {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--red);
+  color: #fff;
+  padding: 0.15em 0.6em;
+  text-decoration: none;
+}
+.kicker:hover { background: var(--red-dark); }
+
+.meta {
+  font-family: var(--font-head);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.1rem;
+  margin: 2.5rem 0 1.25rem;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 3px;
+  background: var(--red);
+}
+
+.prose { max-width: 70ch; }
+.prose h2 { font-size: 1.6rem; margin-top: 2em; }
+.prose h3 { font-size: 1.25rem; margin-top: 1.6em; }
+.prose a { color: var(--red); text-underline-offset: 3px; }
+.prose blockquote {
+  margin: 1.75em 0;
+  padding: 0.5em 1.25em;
+  border-left: 5px solid var(--red);
+  font-style: italic;
+  font-size: 1.15em;
+  background: var(--card);
+}
+.prose code { background: var(--line); padding: 0.1em 0.35em; border-radius: 3px; font-size: 0.9em; }
+.prose ul, .prose ol { padding-left: 1.3em; }
+.prose hr { border: 0; border-top: 2px dashed var(--line); margin: 2.5em 0; }
+.prose table { border-collapse: collapse; width: 100%; font-size: 0.95em; }
+.prose th, .prose td { border-bottom: 1px solid var(--line); padding: 0.5em; text-align: left; }

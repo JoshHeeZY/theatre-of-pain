@@ -1,0 +1,57 @@
+---
+import { getPosts, formatDate } from '../lib';
+import { CATEGORIES } from '../consts';
+const posts = await getPosts();
+const latest = posts.slice(0, 5);
+const counts = Object.fromEntries(Object.keys(CATEGORIES).map((k) => [k, posts.filter((p) => p.data.category === k).length]));
+const avgMood = posts.length ? (posts.reduce((s, p) => s + p.data.mood, 0) / posts.length).toFixed(1) : '–';
+---
+<aside class="sidebar">
+  <section class="box mood">
+    <h4>Fanbase mood</h4>
+    <p class="big">{avgMood}<span>/10</span></p>
+    <p class="small">Average Pain-o-Meter across all {posts.length} posts. Updates whenever we can bear to write.</p>
+  </section>
+  <section class="box">
+    <h4>Latest</h4>
+    <ol>
+      {latest.map((p) => (
+        <li><a href={`/posts/${p.id}/`}>{p.data.title}</a><span class="meta">{formatDate(p.data.pubDate)}</span></li>
+      ))}
+    </ol>
+  </section>
+  <section class="box">
+    <h4>Sections</h4>
+    <ul class="cats">
+      {Object.entries(CATEGORIES).map(([key, c]) => (
+        <li><a href={`/category/${key}/`}>{c.label}</a><span>{counts[key]}</span></li>
+      ))}
+    </ul>
+  </section>
+  <section class="box sub">
+    <h4>Never miss the pain</h4>
+    <p class="small">Subscribe via RSS in your reader of choice.</p>
+    <a class="btn" href="/rss.xml">Get the RSS feed</a>
+  </section>
+</aside>
+
+<style>
+  .sidebar { display: flex; flex-direction: column; gap: 1.25rem; }
+  .box { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--red); padding: 1rem 1.15rem; }
+  h4 { font-size: 0.95rem; letter-spacing: 0.08em; margin-bottom: 0.75rem; }
+  ol { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 0.7rem; }
+  ol li::marker { font-family: var(--font-head); color: var(--red); font-weight: 700; }
+  ol a { display: block; text-decoration: none; font-weight: 600; line-height: 1.3; }
+  ol a:hover { color: var(--red); }
+  .cats { list-style: none; margin: 0; padding: 0; }
+  .cats li { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px dashed var(--line); }
+  .cats a { text-decoration: none; font-family: var(--font-head); text-transform: uppercase; letter-spacing: 0.04em; }
+  .cats a:hover { color: var(--red); }
+  .cats span { color: var(--muted); font-family: var(--font-head); }
+  .big { font-family: var(--font-head); font-size: 3rem; font-weight: 700; color: var(--red); margin: 0; line-height: 1; }
+  .big span { font-size: 1.2rem; color: var(--muted); }
+  .small { font-size: 0.88rem; color: var(--muted); margin: 0.5rem 0 0; }
+  .sub { background: var(--red); color: #fff; border-top-color: var(--gold); }
+  .sub .small { color: #f3d9dd; }
+  .btn { display: inline-block; margin-top: 0.75rem; background: var(--gold); color: #000; text-decoration: none; font-family: var(--font-head); text-transform: uppercase; letter-spacing: 0.06em; padding: 0.5rem 0.9rem; font-size: 0.85rem; }
+</style>

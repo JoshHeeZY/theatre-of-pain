@@ -1,0 +1,24 @@
+---
+import { moodLabel } from '../lib';
+interface Props { mood: number; compact?: boolean }
+const { mood, compact = false } = Astro.props;
+---
+<div class:list={['meter', { compact }]} title={`Pain-o-Meter: ${mood}/10`}>
+  {!compact && <span class="label">Pain-o-Meter</span>}
+  <span class="bar" role="meter" aria-valuemin="1" aria-valuemax="10" aria-valuenow={mood} aria-label="Fan mood">
+    {Array.from({ length: 10 }, (_, i) => <span class:list={['pip', { on: i < mood }]} />)}
+  </span>
+  <span class="verdict">{mood}/10 · {moodLabel(mood)}</span>
+</div>
+
+<style>
+  .meter { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; font-family: var(--font-head); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.8rem; }
+  .label { color: var(--muted); }
+  .bar { display: inline-flex; gap: 3px; }
+  .pip { width: 12px; height: 12px; background: var(--line); transform: skewX(-15deg); }
+  .pip.on { background: var(--red); }
+  .pip.on:nth-child(n+8) { background: var(--gold); }
+  .compact .pip { width: 7px; height: 9px; }
+  .compact { font-size: 0.72rem; }
+  .verdict { color: var(--muted); }
+</style>
